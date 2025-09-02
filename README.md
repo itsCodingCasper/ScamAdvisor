@@ -45,3 +45,5 @@ ScamAdvisor offers a **real-time, user-friendly solution** to verify sources and
 ### 5. Investor Awareness Nudges  
 🔹 Example: “SEBI never guarantees IPO allotments”  
 🔹 Example: “Registered advisors
+
+---
