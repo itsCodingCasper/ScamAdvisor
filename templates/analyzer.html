@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-center mb-8">
+                <span class="material-icons text-6xl mr-4">analytics</span>
+                <div>
+                    <h1 class="text-5xl font-bold mb-4">Announcement Analyzer</h1>
+                    <p class="text-xl opacity-90">AI-powered corporate announcement authenticity verification</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Analyzer Form -->
+            <div class="lg:col-span-2">
+                <div class="google-card">
+                    <div class="flex items-center mb-6">
+                        <span class="material-icons text-blue-600 mr-3">fact_check</span>
+                        <h2 class="text-2xl font-semibold">Analyze Corporate Announcement</h2>
+                    </div>
+
+                    <form id="analyzerForm" class="space-y-6">
+                        <!-- Company Name -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <span class="material-icons text-sm align-middle mr-1">business</span>
+                                Company Name
+                            </label>
+                            <input type="text" id="companyName"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Enter the company name from the announcement" required>
+                            <p class="text-sm text-gray-500 mt-1">
+                                <span class="material-icons text-sm align-middle mr-1">info</span>
+                                Exact company name as mentioned in the announcement
+                            </p>
+                        </div>
+
+                        <!-- Announcement Text -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <span class="material-icons text-sm align-middle mr-1">article</span>
+                                Corporate Announcement Content
+                            </label>
+                            <textarea id="announcementText" rows="8"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Paste the complete corporate announcement text here...&#10;&#10;Examples of what to analyze:&#10;• Company earnings announcements&#10;• Investment opportunities&#10;• Partnership declarations&#10;• Product launch statements&#10;• Financial projections&#10;• IPO announcements"
+                                required></textarea>
+                            <div class="text-sm text-gray-500 mt-2 space-y-1">
+                                <p>
+                                    <span class="material-icons text-sm align-middle mr-1">check_circle</span>
+                                    Include complete text for accurate analysis
+                                </p>
+                                <p>
+                                    <span class="material-icons text-sm align-middle mr-1">shield</span>
+                                    All content is analyzed securely and not stored permanently
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Sample Announcements -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                                <span class="material-icons text-sm mr-2">lightbulb</span>
+                                Quick Test Samples
+                            </h4>
+                            <div class="space-y-2">
+                                <button type="button"
+                                    class="load-sample text-left w-full text-sm text-blue-700 hover:bg-blue-100 p-2 rounded"
+                                    data-company="TechCorp Solutions"
+                                    data-text="TechCorp Solutions announces revolutionary blockchain technology with guaranteed 500% returns for early investors. Limited time opportunity with government backing. Contact our WhatsApp group for exclusive access. Investment starts from just ₹10,000 with assured profits within 30 days.">
+                                    📱 Sample: Suspicious Tech Investment
+                                </button>
+                                <button type="button"
+                                    class="load-sample text-left w-full text-sm text-blue-700 hover:bg-blue-100 p-2 rounded"
+                                    data-company="ABC Industries Ltd"
+                                    data-text="ABC Industries Ltd (BSE: ABCIND) reported Q3 FY24 results with revenue growth of 15% YoY. The company's EBITDA margin improved to 18.2% from 16.8% in the previous quarter. Board approved interim dividend of ₹2 per share. Outlook remains positive based on strong order book and operational efficiency improvements.">
+                                    ✅ Sample: Legitimate Financial Report
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Analyze Button -->
+                        <button type="submit" class="google-button w-full py-3 text-lg font-medium">
+                            <span class="material-icons align-middle mr-2">psychology</span>
+                            Analyze Announcement
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Results Section -->
+                <div id="resultsSection" class="google-card mt-8" style="display: none;">
+                    <div class="flex items-center mb-6">
+                        <span class="material-icons text-green-600 mr-3">verified</span>
+                        <h3 class="text-2xl font-semibold">Analysis Results</h3>
+                    </div>
+                    <div id="analysisResults"></div>
+                </div>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="space-y-6">
+                <!-- Credibility Meter -->
+                <div class="google-card">
+                    <div class="flex items-center mb-4">
+                        <span class="material-icons text-green-600 mr-2">verified</span>
+                        <h3 class="text-lg font-semibold">Credibility Assessment</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Announcements Analyzed</span>
+                            <span class="font-bold text-blue-600">2,547</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Fraud Detected</span>
+                            <span class="font-bold text-red-600">23%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Authentic Companies</span>
+                            <span class="font-bold text-green-600">77%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Fraud Indicators -->
+                <div class="google-card">
+                    <div class="flex items-center mb-4">
+                        <span class="material-icons text-red-600 mr-2">report_problem</span>
+                        <h3 class="text-lg font-semibold">Red Flags to Watch</h3>
+                    </div>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-start">
+                            <span class="material-icons text-red-500 text-sm mr-2 mt-0.5">trending_up</span>
+                            <span>Unrealistic profit guarantees or returns</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="material-icons text-orange-500 text-sm mr-2 mt-0.5">schedule</span>
+                            <span>Urgent investment deadlines or pressure tactics</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="material-icons text-yellow-600 text-sm mr-2 mt-0.5">visibility_off</span>
+                            <span>Lack of proper regulatory disclosures</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="material-icons text-blue-500 text-sm mr-2 mt-0.5">business_center</span>
+                            <span>Fake partnerships or government endorsements</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="material-icons text-purple-500 text-sm mr-2 mt-0.5">account_balance</span>
+                            <span>Missing company registration details</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verification Steps -->
+                <div class="google-card">
+                    <div class="flex items-center mb-4">
+                        <span class="material-icons text-blue-600 mr-2">checklist</span>
+                        <h3 class="text-lg font-semibold">Verification Process</h3>
+                    </div>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-start">
+                            <span class="material-icons text-green-500 text-sm mr-2 mt-0.5">search</span>
+                            <span>Cross-reference with official company filings</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="material-icons text-blue-500 text-sm mr-2 mt-0.5">verified_user</span>
+                            <span>Check SEBI and ROC database registration</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="material-icons text-orange-500 text-sm mr-2 mt-0.5">language</span>
+                            <span>Verify through official company website</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="material-icons text-purple-500 text-sm mr-2 mt-0.5">assessment</span>
+                            <span>Analyze financial claims against market data</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Protection Tips -->
+                <div class="google-card">
+                    <div class="flex items-center mb-4">
+                        <span class="material-icons text-green-600 mr-2">security</span>
+                        <h3 class="text-lg font-semibold">Investor Protection</h3>
+                    </div>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-start">
+                            <span class="material-icons text-green-500 text-sm mr-2 mt-0.5">shield</span>
+                            <span>Always verify through multiple official sources</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="material-icons text-blue-500 text-sm mr-2 mt-0.5">gavel</span>
+                            <span>Check for proper regulatory compliance</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="material-icons text-orange-500 text-sm mr-2 mt-0.5">warning</span>
+                            <span>Be suspicious of unrealistic promises</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="material-icons text-purple-500 text-sm mr-2 mt-0.5">support_agent</span>
+                            <span>Consult SEBI-registered advisors</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-8 max-w-sm mx-4">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <h3 class="text-lg font-semibold mb-2">Analyzing Announcement</h3>
+            <p class="text-gray-600">Verifying authenticity and credibility...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const analyzerForm = document.getElementById('analyzerForm');
+        const resultsSection = document.getElementById('resultsSection');
+        const analysisResults = document.getElementById('analysisResults');
+        const loadingModal = document.getElementById('loadingModal');
+
+        // Handle sample loading
+        document.querySelectorAll('.load-sample').forEach(button => {
+            button.addEventListener('click', function () {
+                document.getElementById('companyName').value = this.dataset.company;
+                document.getElementById('announcementText').value = this.dataset.text;
+            });
+        });
+
+        analyzerForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const companyName = document.getElementById('companyName').value;
+            const announcementText = document.getElementById('announcementText').value;
+
+            if (!companyName.trim() || !announcementText.trim()) {
+                alert('Please fill in both company name and announcement text');
+                return;
+            }
+
+            // Show loading modal
+            loadingModal.classList.remove('hidden');
+            loadingModal.classList.add('flex');
+
+            try {
+                const response = await fetch('/api/analyze-announcement', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        company_name: companyName,
+                        announcement_text: announcementText
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayResults(data);
+                    resultsSection.style.display = 'block';
+                    resultsSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    throw new Error(data.detail || 'Analysis failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error during analysis: ' + error.message);
+            } finally {
+                // Hide loading modal
+                loadingModal.classList.add('hidden');
+                loadingModal.classList.remove('flex');
+            }
+        });
+
+        function displayResults(data) {
+            const credibilityScore = data.credibility_score || 0;
+            const authenticity = data.authenticity_assessment || 'Unknown';
+
+            // Determine color based on credibility score and authenticity
+            let scoreColor = 'text-gray-600';
+            let bgColor = 'bg-gray-50 border-gray-200';
+
+            if (authenticity === 'Likely Fraudulent') {
+                scoreColor = 'text-red-600';
+                bgColor = 'bg-red-50 border-red-200';
+            } else if (authenticity === 'Highly Suspicious') {
+                scoreColor = 'text-red-500';
+                bgColor = 'bg-red-50 border-red-200';
+            } else if (authenticity === 'Requires Verification') {
+                scoreColor = 'text-yellow-600';
+                bgColor = 'bg-yellow-50 border-yellow-200';
+            } else if (authenticity === 'Appears Authentic') {
+                scoreColor = 'text-green-600';
+                bgColor = 'bg-green-50 border-green-200';
+            }
+
+            analysisResults.innerHTML = `
+            <div class="space-y-6">
+                <!-- Credibility Score and Assessment -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <span class="material-icons text-2xl mr-3">verified</span>
+                        <div>
+                            <h4 class="text-lg font-semibold">Authenticity Assessment</h4>
+                            <p class="text-gray-600">Company: ${data.company_name || 'Unknown'}</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div class="px-4 py-2 rounded-full border-2 ${bgColor}">
+                            <div class="${scoreColor} font-bold text-2xl">${credibilityScore.toFixed(1)}/100</div>
+                            <div class="text-sm font-medium">${authenticity}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Credibility Progress Bar -->
+                <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                    <div class="h-full transition-all duration-500 ease-out rounded-full ${credibilityScore >= 80 ? 'bg-green-500' :
+                    credibilityScore >= 60 ? 'bg-yellow-500' :
+                        credibilityScore >= 40 ? 'bg-orange-500' : 'bg-red-500'
+                }" style="width: ${credibilityScore}%"></div>
+                </div>
+
+                <!-- Detailed Analysis -->
+                ${data.detailed_analysis ? `
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h5 class="font-semibold mb-3 flex items-center">
+                        <span class="material-icons mr-2">analytics</span>
+                        Detailed Analysis Report
+                    </h5>
+                    <div class="whitespace-pre-line text-sm">${data.detailed_analysis}</div>
+                </div>
+                ` : ''}
+
+                <!-- Fraud Indicators -->
+                ${data.fraud_indicators && data.fraud_indicators.length > 0 ? `
+                <div>
+                    <h5 class="font-semibold mb-3 flex items-center">
+                        <span class="material-icons mr-2 text-red-600">report_problem</span>
+                        Detected Fraud Indicators
+                    </h5>
+                    <div class="grid gap-3">
+                        ${data.fraud_indicators.map(indicator => `
+                            <div class="border border-red-200 bg-red-50 rounded-lg p-3">
+                                <div class="flex items-center">
+                                    <span class="material-icons text-red-600 mr-2 text-sm">warning</span>
+                                    <span class="text-sm text-red-800">${indicator}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                <!-- Verification Steps -->
+                ${data.verification_steps && data.verification_steps.length > 0 ? `
+                <div>
+                    <h5 class="font-semibold mb-3 flex items-center">
+                        <span class="material-icons mr-2 text-blue-600">checklist</span>
+                        Recommended Verification Steps
+                    </h5>
+                    <div class="space-y-2">
+                        ${data.verification_steps.map((step, index) => `
+                            <div class="flex items-start bg-blue-50 border border-blue-200 rounded-lg p-3">
+                                <span class="flex-shrink-0 w-6 h-6 bg-blue-600 text-white text-xs rounded-full flex items-center justify-center mr-3 mt-0.5">
+                                    ${index + 1}
+                                </span>
+                                <span class="text-sm">${step}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                <!-- Recommendations -->
+                ${data.recommendations && data.recommendations.length > 0 ? `
+                <div>
+                    <h5 class="font-semibold mb-3 flex items-center">
+                        <span class="material-icons mr-2 text-green-600">lightbulb</span>
+                        Recommendations
+                    </h5>
+                    <div class="space-y-2">
+                        ${data.recommendations.map(recommendation => `
+                            <div class="flex items-start bg-green-50 border border-green-200 rounded-lg p-3">
+                                <span class="material-icons text-green-600 mr-2 mt-0.5 text-sm">check_circle</span>
+                                <span class="text-sm">${recommendation}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                <!-- Timestamp -->
+                <div class="text-xs text-gray-500 border-t pt-3">
+                    <span class="material-icons text-xs align-middle mr-1">schedule</span>
+                    Analysis completed: ${new Date(data.timestamp).toLocaleString()}
+                </div>
+            </div>
+        `;
+        }
+    });
+</script>
+{% endblock %}

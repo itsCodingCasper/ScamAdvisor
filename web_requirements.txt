@@ -1,0 +1,43 @@
+# SEBI Fraud Detection System - Web Application Dependencies
+
+# FastAPI and Web Framework
+fastapi
+uvicorn[standard]
+jinja2
+python-multipart
+
+# Database
+sqlalchemy
+sqlite3  # Built into Python
+
+# AI and Machine Learning (from scrapper.ipynb)
+llama-index
+llama-index-utils-workflow
+llama-index-llms-google-genai
+llama-index-tools-google
+google-generativeai
+
+# Data Processing
+pandas
+numpy
+scikit-learn
+nltk
+textblob
+
+# Web Scraping and Content Analysis
+beautifulsoup4
+requests
+
+# Environment and Configuration
+python-dotenv
+pydantic
+
+# Additional Utilities
+pathlib  # Built into Python
+logging  # Built into Python
+asyncio  # Built into Python
+datetime  # Built into Python
+
+# Optional: For enhanced features
+plotly  # For data visualization
+streamlit  # Alternative web interface
