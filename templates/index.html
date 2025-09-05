@@ -1,0 +1,430 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section - Google Careers inspired -->
+<section class="hero-gradient text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                Protect. Detect. Prevent.
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
+                Advanced AI-powered fraud detection system protecting retail investors
+                from securities market fraud. Part of SEBI's Safe Space initiative.
+            </p>
+
+            <!-- Quick Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                <a href="/scan" class="google-button inline-flex items-center px-8 py-4 text-lg">
+                    <span class="material-icons mr-2">scanner</span>
+                    Scan Content for Fraud
+                </a>
+                <a href="/verify"
+                    class="google-button-outline bg-white text-blue-600 inline-flex items-center px-8 py-4 text-lg">
+                    <span class="material-icons mr-2">verified_user</span>
+                    Verify Advisor
+                </a>
+            </div>
+
+            <!-- Real-time System Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                <div class="stat-card text-center">
+                    <div class="text-2xl font-bold text-blue-600" data-stat="total_scans">{{stats.total_scans}}</div>
+                    <div class="text-sm text-gray-600">Content Scans</div>
+                </div>
+                <div class="stat-card text-center">
+                    <div class="text-2xl font-bold text-red-600" data-stat="high_risk_detections">
+                        {{stats.high_risk_detections}}</div>
+                    <div class="text-sm text-gray-600">Threats Detected</div>
+                </div>
+                <div class="stat-card text-center">
+                    <div class="text-2xl font-bold text-green-600" data-stat="advisor_verifications">
+                        {{stats.advisor_verifications}}</div>
+                    <div class="text-sm text-gray-600">Advisors Verified</div>
+                </div>
+                <div class="stat-card text-center">
+                    <div class="text-2xl font-bold text-yellow-600" data-stat="social_media_alerts">
+                        {{stats.social_media_alerts}}</div>
+                    <div class="text-sm text-gray-600">Social Alerts</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Comprehensive Fraud Protection
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Our AI-powered system provides multi-layered protection against various types of securities fraud.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Content Scanner -->
+            <div class="google-card group">
+                <div class="feature-icon mb-6">
+                    <span class="material-icons">scanner</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Content Scanner</h3>
+                <p class="text-gray-600 mb-6">
+                    Advanced AI analysis of investment offers, social media posts, and documents to identify fraud
+                    indicators and suspicious patterns.
+                </p>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Detects unrealistic return promises
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Identifies pressure tactics
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Real-time risk scoring
+                    </li>
+                </ul>
+                <a href="/scan" class="google-button mt-6 inline-block">
+                    Start Scanning
+                </a>
+            </div>
+
+            <!-- Advisor Verification -->
+            <div class="google-card group">
+                <div class="feature-icon mb-6">
+                    <span class="material-icons">verified_user</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Advisor Verification</h3>
+                <p class="text-gray-600 mb-6">
+                    Cross-reference advisor credentials with SEBI regulatory database to verify legitimacy and flag
+                    impersonators.
+                </p>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        SEBI registration validation
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        License verification
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Disciplinary action checks
+                    </li>
+                </ul>
+                <a href="/verify" class="google-button mt-6 inline-block">
+                    Verify Now
+                </a>
+            </div>
+
+            <!-- Social Media Monitor -->
+            <div class="google-card group">
+                <div class="feature-icon mb-6">
+                    <span class="material-icons">monitor</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Social Media Monitor</h3>
+                <p class="text-gray-600 mb-6">
+                    Continuous monitoring of social platforms for pump-and-dump schemes, fake trading apps, and
+                    coordinated manipulation.
+                </p>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        WhatsApp/Telegram groups
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Viral content tracking
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Network analysis
+                    </li>
+                </ul>
+                <button class="google-button mt-6" onclick="startSocialMonitoring()">
+                    Start Monitoring
+                </button>
+            </div>
+
+            <!-- Corporate Announcements -->
+            <div class="google-card group">
+                <div class="feature-icon mb-6">
+                    <span class="material-icons">announcement</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Announcement Analyzer</h3>
+                <p class="text-gray-600 mb-6">
+                    Verify authenticity of corporate announcements and press releases with credibility scoring and
+                    cross-verification.
+                </p>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Document authenticity
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Historical consistency
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Credibility scoring
+                    </li>
+                </ul>
+                <button class="google-button mt-6" onclick="analyzeAnnouncement()">
+                    Analyze Document
+                </button>
+            </div>
+
+            <!-- Risk Assessment -->
+            <div class="google-card group">
+                <div class="feature-icon mb-6">
+                    <span class="material-icons">assessment</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Risk Assessment</h3>
+                <p class="text-gray-600 mb-6">
+                    Comprehensive fraud risk reports aggregating findings from all detection systems with actionable
+                    recommendations.
+                </p>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Multi-factor analysis
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Risk scoring
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Investor alerts
+                    </li>
+                </ul>
+                <a href="/dashboard" class="google-button mt-6 inline-block">
+                    View Dashboard
+                </a>
+            </div>
+
+            <!-- AI Technology -->
+            <div class="google-card group">
+                <div class="feature-icon mb-6">
+                    <span class="material-icons">psychology</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">AI Technology</h3>
+                <p class="text-gray-600 mb-6">
+                    Powered by Gemini 2.5 Pro with advanced multi-agent workflows for comprehensive fraud detection and
+                    analysis.
+                </p>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Natural language processing
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Pattern recognition
+                    </li>
+                    <li class="flex items-center">
+                        <span class="material-icons text-green-500 text-sm mr-2">check_circle</span>
+                        Continuous learning
+                    </li>
+                </ul>
+                <button class="google-button mt-6" onclick="learnMore()">
+                    Learn More
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                How Our AI System Works
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Our multi-agent AI system collaborates to provide comprehensive fraud detection across all attack
+                vectors.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons text-blue-600 text-3xl">input</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">1. Input Analysis</h3>
+                <p class="text-gray-600">
+                    Submit content, advisor details, or social media links for analysis. Our system accepts text, URLs,
+                    documents, and more.
+                </p>
+            </div>
+
+            <div class="text-center">
+                <div class="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons text-green-600 text-3xl">psychology</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">2. AI Processing</h3>
+                <p class="text-gray-600">
+                    Multiple specialized AI agents analyze different aspects using advanced NLP, pattern recognition,
+                    and database verification.
+                </p>
+            </div>
+
+            <div class="text-center">
+                <div class="bg-yellow-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons text-yellow-600 text-3xl">report</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">3. Risk Report</h3>
+                <p class="text-gray-600">
+                    Receive detailed fraud risk assessment with specific findings, recommendations, and actionable next
+                    steps.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="py-16 bg-blue-600 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+            Start Protecting Your Investments Today
+        </h2>
+        <p class="text-xl mb-8 max-w-3xl mx-auto opacity-90">
+            Don't fall victim to securities fraud. Use our advanced AI system to verify
+            investment opportunities and advisor credentials before you invest.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/scan"
+                class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-colors inline-flex items-center">
+                <span class="material-icons mr-2">security</span>
+                Scan Content Now
+            </a>
+            <a href="/verify"
+                class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-colors inline-flex items-center">
+                <span class="material-icons mr-2">verified_user</span>
+                Verify Advisor
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Activity Feed -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                Recent Fraud Detection Activity
+            </h2>
+            <p class="text-xl text-gray-600">
+                Live feed of recent fraud detection scans and verifications
+            </p>
+        </div>
+
+        <div id="recentActivity" class="space-y-4">
+            <!-- Activity items will be loaded here via JavaScript -->
+            <div class="google-card">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="material-icons text-red-600 text-sm">warning</span>
+                        </div>
+                        <div>
+                            <p class="font-medium">High-risk investment offer detected</p>
+                            <p class="text-sm text-gray-500">Content: "Guaranteed 500% returns in 30 days..."</p>
+                        </div>
+                    </div>
+                    <span class="text-sm text-gray-400">2 minutes ago</span>
+                </div>
+            </div>
+
+            <div class="google-card">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="material-icons text-green-600 text-sm">verified</span>
+                        </div>
+                        <div>
+                            <p class="font-medium">Advisor credentials verified</p>
+                            <p class="text-sm text-gray-500">Registration: IA/2024/VALID123 - Status: Active</p>
+                        </div>
+                    </div>
+                    <span class="text-sm text-gray-400">5 minutes ago</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-8">
+            <a href="/dashboard" class="google-button">
+                View Full Dashboard
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Load recent activity
+    function loadRecentActivity() {
+        fetch('/api/recent-scans')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('recentActivity');
+
+                // Clear existing content except the first two demo items
+                const demoItems = container.children.length;
+
+                // Add recent scans
+                if (data.recent_scans && data.recent_scans.length > 0) {
+                    data.recent_scans.forEach(scan => {
+                        const riskClass = scan.risk_level === 'High' ? 'red' :
+                            scan.risk_level === 'Medium' ? 'yellow' : 'green';
+
+                        const activityItem = document.createElement('div');
+                        activityItem.className = 'google-card';
+                        activityItem.innerHTML = `
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-${riskClass}-100 rounded-full flex items-center justify-center mr-4">
+                                        <span class="material-icons text-${riskClass}-600 text-sm">scanner</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">${scan.risk_level} risk content detected</p>
+                                        <p class="text-sm text-gray-500">Score: ${scan.risk_score}/100</p>
+                                    </div>
+                                </div>
+                                <span class="text-sm text-gray-400">${new Date(scan.created_at).toLocaleTimeString()}</span>
+                            </div>
+                        `;
+                        container.appendChild(activityItem);
+                    });
+                }
+            })
+            .catch(error => console.error('Error loading recent activity:', error));
+    }
+
+    // Load activity on page load
+    document.addEventListener('DOMContentLoaded', loadRecentActivity);
+
+    // Action functions
+    function startSocialMonitoring() {
+        alert('Social Media Monitoring feature - Implementation in progress');
+    }
+
+    function analyzeAnnouncement() {
+        alert('Corporate Announcement Analyzer - Implementation in progress');
+    }
+
+    function learnMore() {
+        alert('Learn more about our AI technology - Documentation coming soon');
+    }
+</script>
+{% endblock %}
