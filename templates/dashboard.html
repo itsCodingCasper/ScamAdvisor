@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <!-- Dashboard Header -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Fraud Detection Dashboard</h1>
+                <p class="text-gray-600 mt-2">Real-time monitoring and analytics for securities fraud detection</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center px-3 py-2 bg-green-100 rounded-lg">
+                    <span class="material-icons text-green-600 text-sm mr-2">check_circle</span>
+                    <span class="text-green-800 font-medium text-sm">System Operational</span>
+                </div>
+                <button class="google-button" onclick="refreshDashboard()">
+                    <span class="material-icons mr-2">refresh</span>
+                    Refresh
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="stat-card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Total Scans</p>
+                    <p class="text-3xl font-bold text-blue-600" data-stat="total_scans">{{stats.total_scans}}</p>
+                </div>
+                <div class="p-3 bg-blue-100 rounded-full">
+                    <span class="material-icons text-blue-600">scanner</span>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-sm">
+                <span class="material-icons text-green-500 text-sm mr-1">trending_up</span>
+                <span class="text-green-600 font-medium">+12%</span>
+                <span class="text-gray-500 ml-1">from last week</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Threats Detected</p>
+                    <p class="text-3xl font-bold text-red-600" data-stat="high_risk_detections">
+                        {{stats.high_risk_detections}}</p>
+                </div>
+                <div class="p-3 bg-red-100 rounded-full">
+                    <span class="material-icons text-red-600">warning</span>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-sm">
+                <span class="material-icons text-red-500 text-sm mr-1">trending_up</span>
+                <span class="text-red-600 font-medium">+8%</span>
+                <span class="text-gray-500 ml-1">fraud attempts</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Advisors Verified</p>
+                    <p class="text-3xl font-bold text-green-600" data-stat="advisor_verifications">
+                        {{stats.advisor_verifications}}</p>
+                </div>
+                <div class="p-3 bg-green-100 rounded-full">
+                    <span class="material-icons text-green-600">verified_user</span>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-sm">
+                <span class="material-icons text-green-500 text-sm mr-1">trending_up</span>
+                <span class="text-green-600 font-medium">+15%</span>
+                <span class="text-gray-500 ml-1">verifications</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Social Alerts</p>
+                    <p class="text-3xl font-bold text-yellow-600" data-stat="social_media_alerts">
+                        {{stats.social_media_alerts}}</p>
+                </div>
+                <div class="p-3 bg-yellow-100 rounded-full">
+                    <span class="material-icons text-yellow-600">group</span>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-sm">
+                <span class="material-icons text-yellow-500 text-sm mr-1">trending_up</span>
+                <span class="text-yellow-600 font-medium">+5%</span>
+                <span class="text-gray-500 ml-1">social monitoring</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="google-card mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a href="/scan"
+                class="flex items-center p-4 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors">
+                <span class="material-icons text-blue-600 text-2xl mr-4">scanner</span>
+                <div>
+                    <h3 class="font-semibold text-gray-900">Scan Content</h3>
+                    <p class="text-sm text-gray-600">Analyze investment content for fraud</p>
+                </div>
+            </a>
+
+            <a href="/verify"
+                class="flex items-center p-4 border border-green-200 rounded-lg hover:bg-green-50 transition-colors">
+                <span class="material-icons text-green-600 text-2xl mr-4">verified_user</span>
+                <div>
+                    <h3 class="font-semibold text-gray-900">Verify Advisor</h3>
+                    <p class="text-sm text-gray-600">Check advisor credentials</p>
+                </div>
+            </a>
+
+            <button
+                class="flex items-center p-4 border border-yellow-200 rounded-lg hover:bg-yellow-50 transition-colors"
+                onclick="generateReport()">
+                <span class="material-icons text-yellow-600 text-2xl mr-4">assessment</span>
+                <div>
+                    <h3 class="font-semibold text-gray-900">Generate Report</h3>
+                    <p class="text-sm text-gray-600">Create comprehensive fraud report</p>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Recent Activity and Analytics -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <!-- Recent Fraud Detections -->
+        <div class="google-card">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">Recent Fraud Detections</h2>
+                <button class="text-blue-600 hover:text-blue-800 text-sm font-medium" onclick="loadRecentActivity()">
+                    Refresh
+                </button>
+            </div>
+
+            <div id="recentDetections" class="space-y-4">
+                <!-- Recent detections will be loaded here -->
+                <div class="flex items-start space-x-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <span class="material-icons text-red-500 mt-0.5">error</span>
+                    <div class="flex-1">
+                        <p class="font-medium text-red-800">High-risk content detected</p>
+                        <p class="text-sm text-red-600">Risk Score: 85/100</p>
+                        <p class="text-xs text-red-500">2 minutes ago</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <span class="material-icons text-yellow-500 mt-0.5">warning</span>
+                    <div class="flex-1">
+                        <p class="font-medium text-yellow-800">Suspicious advisor verification</p>
+                        <p class="text-sm text-yellow-600">Registration: FAKE999</p>
+                        <p class="text-xs text-yellow-500">5 minutes ago</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <span class="material-icons text-green-500 mt-0.5">check_circle</span>
+                    <div class="flex-1">
+                        <p class="font-medium text-green-800">Advisor credentials verified</p>
+                        <p class="text-sm text-green-600">Valid SEBI registration</p>
+                        <p class="text-xs text-green-500">8 minutes ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Threat Analytics -->
+        <div class="google-card">
+            <h2 class="text-xl font-semibold text-gray-900 mb-6">Threat Analytics</h2>
+
+            <!-- Threat Distribution -->
+            <div class="mb-6">
+                <h3 class="text-sm font-medium text-gray-700 mb-3">Threat Distribution (Last 7 Days)</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Fraudulent Investment Offers</span>
+                        <div class="flex items-center">
+                            <div class="w-24 bg-gray-200 rounded-full h-2 mr-3">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 65%"></div>
+                            </div>
+                            <span class="text-sm font-medium">65%</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Social Media Manipulation</span>
+                        <div class="flex items-center">
+                            <div class="w-24 bg-gray-200 rounded-full h-2 mr-3">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 45%"></div>
+                            </div>
+                            <span class="text-sm font-medium">45%</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Fake Advisor Credentials</span>
+                        <div class="flex items-center">
+                            <div class="w-24 bg-gray-200 rounded-full h-2 mr-3">
+                                <div class="bg-orange-500 h-2 rounded-full" style="width: 35%"></div>
+                            </div>
+                            <span class="text-sm font-medium">35%</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Document Manipulation</span>
+                        <div class="flex items-center">
+                            <div class="w-24 bg-gray-200 rounded-full h-2 mr-3">
+                                <div class="bg-purple-500 h-2 rounded-full" style="width: 25%"></div>
+                            </div>
+                            <span class="text-sm font-medium">25%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Trends -->
+            <div>
+                <h3 class="text-sm font-medium text-gray-700 mb-3">Risk Level Trends</h3>
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div class="p-3 bg-red-50 rounded-lg">
+                        <p class="text-2xl font-bold text-red-600">23</p>
+                        <p class="text-xs text-red-600">High Risk</p>
+                    </div>
+                    <div class="p-3 bg-yellow-50 rounded-lg">
+                        <p class="text-2xl font-bold text-yellow-600">41</p>
+                        <p class="text-xs text-yellow-600">Medium Risk</p>
+                    </div>
+                    <div class="p-3 bg-green-50 rounded-lg">
+                        <p class="text-2xl font-bold text-green-600">156</p>
+                        <p class="text-xs text-green-600">Low Risk</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Health -->
+    <div class="google-card">
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">System Health & Performance</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-3">
+                    <span class="material-icons text-green-600">speed</span>
+                </div>
+                <h3 class="font-semibold text-gray-900">Response Time</h3>
+                <p class="text-2xl font-bold text-green-600">150ms</p>
+                <p class="text-sm text-gray-500">Average analysis time</p>
+            </div>
+
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-3">
+                    <span class="material-icons text-blue-600">psychology</span>
+                </div>
+                <h3 class="font-semibold text-gray-900">AI Accuracy</h3>
+                <p class="text-2xl font-bold text-blue-600">94.2%</p>
+                <p class="text-sm text-gray-500">Fraud detection rate</p>
+            </div>
+
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-12 h-12 bg-purple-100 rounded-full mb-3">
+                    <span class="material-icons text-purple-600">storage</span>
+                </div>
+                <h3 class="font-semibold text-gray-900">System Uptime</h3>
+                <p class="text-2xl font-bold text-purple-600">99.9%</p>
+                <p class="text-sm text-gray-500">Last 30 days</p>
+            </div>
+        </div>
+
+        <!-- Additional System Info -->
+        <div class="mt-8 pt-6 border-t border-gray-200">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div>
+                    <span class="text-gray-500">AI Engine:</span>
+                    <span class="font-medium text-gray-900 ml-2">Gemini 2.5 Pro</span>
+                </div>
+                <div>
+                    <span class="text-gray-500">Database:</span>
+                    <span class="font-medium text-gray-900 ml-2">SQLite</span>
+                </div>
+                <div>
+                    <span class="text-gray-500">Last Update:</span>
+                    <span class="font-medium text-gray-900 ml-2" id="lastUpdate">Just now</span>
+                </div>
+                <div>
+                    <span class="text-gray-500">Version:</span>
+                    <span class="font-medium text-gray-900 ml-2">v1.0.0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function refreshDashboard() {
+        // Update stats
+        fetch('/api/stats')
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector('[data-stat="total_scans"]').textContent = data.total_scans;
+                document.querySelector('[data-stat="high_risk_detections"]').textContent = data.high_risk_detections;
+                document.querySelector('[data-stat="advisor_verifications"]').textContent = data.advisor_verifications;
+                document.querySelector('[data-stat="social_media_alerts"]').textContent = data.social_media_alerts;
+
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+            })
+            .catch(error => console.error('Error refreshing stats:', error));
+
+        // Reload recent activity
+        loadRecentActivity();
+    }
+
+    function loadRecentActivity() {
+        fetch('/api/recent-scans')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('recentDetections');
+
+                if (data.recent_scans && data.recent_scans.length > 0) {
+                    // Clear existing content
+                    container.innerHTML = '';
+
+                    // Add recent scans
+                    data.recent_scans.slice(0, 5).forEach(scan => {
+                        const riskClass = scan.risk_level === 'High' ? 'red' :
+                            scan.risk_level === 'Medium' ? 'yellow' : 'green';
+
+                        const icon = scan.risk_level === 'High' ? 'error' :
+                            scan.risk_level === 'Medium' ? 'warning' : 'check_circle';
+
+                        const activityItem = document.createElement('div');
+                        activityItem.className = `flex items-start space-x-3 p-3 bg-${riskClass}-50 border border-${riskClass}-200 rounded-lg`;
+                        activityItem.innerHTML = `
+                            <span class="material-icons text-${riskClass}-500 mt-0.5">${icon}</span>
+                            <div class="flex-1">
+                                <p class="font-medium text-${riskClass}-800">${scan.risk_level} risk content detected</p>
+                                <p class="text-sm text-${riskClass}-600">Risk Score: ${scan.risk_score}/100</p>
+                                <p class="text-xs text-${riskClass}-500">${new Date(scan.created_at).toLocaleString()}</p>
+                            </div>
+                        `;
+                        container.appendChild(activityItem);
+                    });
+                }
+            })
+            .catch(error => console.error('Error loading recent activity:', error));
+    }
+
+    function generateReport() {
+        alert('Comprehensive report generation - Implementation in progress');
+    }
+
+    // Auto-refresh dashboard every 2 minutes
+    setInterval(refreshDashboard, 120000);
+
+    // Load initial data
+    document.addEventListener('DOMContentLoaded', function () {
+        loadRecentActivity();
+    });
+</script>
+{% endblock %}

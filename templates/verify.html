@@ -1,0 +1,385 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <!-- Page Header -->
+    <div class="text-center mb-12">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-6">
+            <span class="material-icons text-green-600 text-3xl">verified_user</span>
+        </div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Advisor Verification</h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            Verify investment advisor credentials against SEBI regulatory database.
+            Check registration status, validity, and detect impersonators.
+        </p>
+    </div>
+
+    <!-- Verification Form -->
+    <div class="google-card mb-8">
+        <form id="verifyForm" class="space-y-6">
+            <div>
+                <label for="advisorName" class="block text-sm font-medium text-gray-700 mb-2">
+                    Advisor Name *
+                </label>
+                <input type="text" id="advisorName" name="advisorName"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter the full name of the investment advisor" required />
+            </div>
+
+            <div>
+                <label for="registrationNumber" class="block text-sm font-medium text-gray-700 mb-2">
+                    SEBI Registration Number
+                </label>
+                <input type="text" id="registrationNumber" name="registrationNumber"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="e.g., IA/2024/123456 (optional)" />
+                <p class="text-sm text-gray-500 mt-2">
+                    If you have the registration number, it will help with faster verification.
+                </p>
+            </div>
+
+            <div>
+                <label for="contactInfo" class="block text-sm font-medium text-gray-700 mb-2">
+                    Contact Information (Optional)
+                </label>
+                <textarea id="contactInfo" name="contactInfo" rows="3"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Phone number, email, office address, website, etc."></textarea>
+            </div>
+
+            <div class="flex gap-4">
+                <button type="submit" class="google-button flex-1 flex items-center justify-center py-3"
+                    id="verifyButton">
+                    <span class="material-icons mr-2">verified_user</span>
+                    Verify Credentials
+                </button>
+                <button type="button" class="google-button-outline px-6 py-3" onclick="clearForm()">
+                    Clear
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Sample Advisors for Testing -->
+    <div class="google-card mb-8">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+            Test with Sample Advisors
+        </h3>
+        <p class="text-gray-600 mb-4">
+            Click on any sample below to test the verification system:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border border-green-200 rounded-lg p-4 cursor-pointer hover:bg-green-50 transition-colors"
+                onclick="loadSample('legitimate')">
+                <div class="flex items-center mb-2">
+                    <span class="material-icons text-green-500 text-sm mr-2">verified</span>
+                    <span class="font-medium text-green-700">Legitimate Advisor</span>
+                </div>
+                <p class="text-sm text-gray-600 font-medium">Priya Sharma</p>
+                <p class="text-xs text-gray-500">Reg: IA/2024/VALID123</p>
+            </div>
+
+            <div class="border border-red-200 rounded-lg p-4 cursor-pointer hover:bg-red-50 transition-colors"
+                onclick="loadSample('fraudulent')">
+                <div class="flex items-center mb-2">
+                    <span class="material-icons text-red-500 text-sm mr-2">error</span>
+                    <span class="font-medium text-red-700">Fraudulent Advisor</span>
+                </div>
+                <p class="text-sm text-gray-600 font-medium">Rajesh Kumar</p>
+                <p class="text-xs text-gray-500">Reg: IA/2024/FAKE999</p>
+            </div>
+
+            <div class="border border-yellow-200 rounded-lg p-4 cursor-pointer hover:bg-yellow-50 transition-colors"
+                onclick="loadSample('unregistered')">
+                <div class="flex items-center mb-2">
+                    <span class="material-icons text-yellow-500 text-sm mr-2">warning</span>
+                    <span class="font-medium text-yellow-700">Unregistered</span>
+                </div>
+                <p class="text-sm text-gray-600 font-medium">Amit Singh</p>
+                <p class="text-xs text-gray-500">No registration provided</p>
+            </div>
+
+            <div class="border border-blue-200 rounded-lg p-4 cursor-pointer hover:bg-blue-50 transition-colors"
+                onclick="loadSample('expired')">
+                <div class="flex items-center mb-2">
+                    <span class="material-icons text-blue-500 text-sm mr-2">schedule</span>
+                    <span class="font-medium text-blue-700">Expired License</span>
+                </div>
+                <p class="text-sm text-gray-600 font-medium">Sunita Patel</p>
+                <p class="text-xs text-gray-500">Reg: IA/2020/EXPIRED789</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEBI Information -->
+    <div class="google-card mb-8 bg-blue-50 border-l-4 border-blue-500">
+        <div class="flex items-start">
+            <span class="material-icons text-blue-500 mr-3 mt-1">info</span>
+            <div>
+                <h3 class="font-semibold text-blue-900 mb-2">About SEBI Registration</h3>
+                <p class="text-blue-800 text-sm">
+                    All investment advisors in India must be registered with SEBI (Securities and Exchange Board of
+                    India).
+                    Valid registration numbers follow the format IA/YYYY/XXXXXX. Always verify credentials before
+                    taking investment advice or transferring funds.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="hidden google-card text-center py-8">
+        <div class="inline-flex items-center">
+            <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mr-3"></div>
+            <span class="text-gray-700">Verifying credentials with SEBI database...</span>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="resultsSection" class="hidden">
+        <div class="google-card">
+            <div class="flex items-center mb-6">
+                <span class="material-icons text-green-600 text-2xl mr-3">fact_check</span>
+                <h2 class="text-2xl font-bold text-gray-900">Verification Results</h2>
+            </div>
+
+            <!-- Verification Status -->
+            <div id="verificationStatusCard" class="mb-8">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+
+            <!-- Advisor Details -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Advisor Information</h3>
+                <div id="advisorDetailsContainer" class="space-y-4">
+                    <!-- Details will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Risk Assessment -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Risk Assessment</h3>
+                <div id="riskAssessmentContainer" class="bg-gray-50 rounded-lg p-4">
+                    <!-- Assessment will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-4 pt-6 border-t border-gray-200">
+                <button class="google-button" onclick="saveVerification()">
+                    <span class="material-icons mr-2">save</span>
+                    Save Results
+                </button>
+                <button class="google-button-outline" onclick="reportSuspicious()">
+                    <span class="material-icons mr-2">report_problem</span>
+                    Report Suspicious Activity
+                </button>
+                <button class="google-button-outline" onclick="checkSEBIWebsite()">
+                    <span class="material-icons mr-2">open_in_new</span>
+                    Check SEBI Website
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const samples = {
+        'legitimate': {
+            name: 'Priya Sharma',
+            registration: 'IA/2024/VALID123',
+            contact: 'Phone: +91-9876543210\nEmail: priya.sharma@validadvisor.com\nOffice: Mumbai, Maharashtra'
+        },
+        'fraudulent': {
+            name: 'Rajesh Kumar',
+            registration: 'IA/2024/FAKE999',
+            contact: 'Phone: +91-9999999999\nWhatsApp only\nPromises guaranteed returns'
+        },
+        'unregistered': {
+            name: 'Amit Singh',
+            registration: '',
+            contact: 'Phone: +91-8888888888\nClaims to be "certified" advisor\nOperates through social media'
+        },
+        'expired': {
+            name: 'Sunita Patel',
+            registration: 'IA/2020/EXPIRED789',
+            contact: 'Phone: +91-7777777777\nEmail: sunita@oldadvisor.com\nContinues to offer services'
+        }
+    };
+
+    function loadSample(sampleType) {
+        const sample = samples[sampleType];
+        if (sample) {
+            document.getElementById('advisorName').value = sample.name;
+            document.getElementById('registrationNumber').value = sample.registration;
+            document.getElementById('contactInfo').value = sample.contact;
+        }
+    }
+
+    function clearForm() {
+        document.getElementById('verifyForm').reset();
+        document.getElementById('resultsSection').classList.add('hidden');
+    }
+
+    document.getElementById('verifyForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const advisorName = document.getElementById('advisorName').value;
+        const registrationNumber = document.getElementById('registrationNumber').value;
+        const contactInfo = document.getElementById('contactInfo').value;
+
+        // Show loading state
+        document.getElementById('loadingState').classList.remove('hidden');
+        document.getElementById('resultsSection').classList.add('hidden');
+        document.getElementById('verifyButton').disabled = true;
+
+        try {
+            const response = await fetch('/api/verify-advisor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    advisor_name: advisorName,
+                    registration_number: registrationNumber
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Verification failed');
+            }
+
+            const result = await response.json();
+            displayResults(result, contactInfo);
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Verification failed. Please try again.');
+        } finally {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('verifyButton').disabled = false;
+        }
+    });
+
+    function displayResults(result, contactInfo) {
+        // Verification Status Card
+        const statusCard = document.getElementById('verificationStatusCard');
+        let statusClass, statusIcon, statusText;
+
+        switch (result.verification_status) {
+            case 'Potentially Valid':
+                statusClass = 'bg-green-50 border-green-200 text-green-800';
+                statusIcon = 'verified';
+                statusText = 'Credentials appear valid';
+                break;
+            case 'Fraudulent':
+                statusClass = 'bg-red-50 border-red-200 text-red-800';
+                statusIcon = 'error';
+                statusText = 'Fraudulent credentials detected';
+                break;
+            case 'Requires Manual Verification':
+                statusClass = 'bg-yellow-50 border-yellow-200 text-yellow-800';
+                statusIcon = 'warning';
+                statusText = 'Manual verification required';
+                break;
+            default:
+                statusClass = 'bg-gray-50 border-gray-200 text-gray-800';
+                statusIcon = 'help';
+                statusText = 'Unknown status';
+        }
+
+        statusCard.innerHTML = `
+            <div class="p-6 rounded-lg border-2 ${statusClass}">
+                <div class="flex items-center">
+                    <span class="material-icons text-3xl mr-4">${statusIcon}</span>
+                    <div>
+                        <h3 class="text-2xl font-bold">${result.verification_status}</h3>
+                        <p class="text-lg">${statusText}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Advisor Details
+        const detailsContainer = document.getElementById('advisorDetailsContainer');
+        detailsContainer.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-900 mb-2">Advisor Name</h4>
+                    <p class="text-gray-700">${result.advisor_name}</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-900 mb-2">Registration Number</h4>
+                    <p class="text-gray-700">${result.registration_number || 'Not provided'}</p>
+                </div>
+                ${contactInfo ? `
+                <div class="bg-gray-50 rounded-lg p-4 md:col-span-2">
+                    <h4 class="font-semibold text-gray-900 mb-2">Contact Information</h4>
+                    <p class="text-gray-700 whitespace-pre-line">${contactInfo}</p>
+                </div>
+                ` : ''}
+                <div class="bg-gray-50 rounded-lg p-4 md:col-span-2">
+                    <h4 class="font-semibold text-gray-900 mb-2">Verification Timestamp</h4>
+                    <p class="text-gray-700">${new Date(result.timestamp).toLocaleString()}</p>
+                </div>
+            </div>
+        `;
+
+        // Risk Assessment
+        const assessmentContainer = document.getElementById('riskAssessmentContainer');
+        assessmentContainer.innerHTML = `
+            <div class="space-y-3">
+                <h4 class="font-semibold text-gray-900">AI Assessment:</h4>
+                <p class="text-gray-700">${result.risk_assessment}</p>
+                
+                ${result.verification_status === 'Fraudulent' ? `
+                    <div class="mt-4 p-4 bg-red-100 border border-red-300 rounded-lg">
+                        <div class="flex items-center">
+                            <span class="material-icons text-red-500 mr-2">warning</span>
+                            <span class="font-semibold text-red-800">⚠️ FRAUD ALERT</span>
+                        </div>
+                        <p class="text-red-700 mt-2">
+                            This advisor appears to be using fraudulent credentials. 
+                            Do not provide any personal information or transfer funds.
+                        </p>
+                    </div>
+                ` : ''}
+                
+                ${result.verification_status === 'Requires Manual Verification' ? `
+                    <div class="mt-4 p-4 bg-yellow-100 border border-yellow-300 rounded-lg">
+                        <div class="flex items-center">
+                            <span class="material-icons text-yellow-600 mr-2">info</span>
+                            <span class="font-semibold text-yellow-800">Manual Verification Needed</span>
+                        </div>
+                        <p class="text-yellow-700 mt-2">
+                            Please verify this advisor's credentials directly with SEBI 
+                            before proceeding with any investment decisions.
+                        </p>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+
+        // Show results
+        document.getElementById('resultsSection').classList.remove('hidden');
+
+        // Scroll to results
+        document.getElementById('resultsSection').scrollIntoView({
+            behavior: 'smooth'
+        });
+    }
+
+    function saveVerification() {
+        alert('Verification save functionality - Implementation in progress');
+    }
+
+    function reportSuspicious() {
+        alert('Report suspicious activity functionality - Implementation in progress');
+    }
+
+    function checkSEBIWebsite() {
+        window.open('https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognised=yes', '_blank');
+    }
+</script>
+{% endblock %}
