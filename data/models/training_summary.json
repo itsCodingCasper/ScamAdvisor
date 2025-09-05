@@ -1,0 +1,22 @@
+{
+  "training_date": "2025-09-04T22:22:50.782364",
+  "models_trained": 5,
+  "model_performance": {
+    "random_forest_text": {
+      "accuracy": 1.0,
+      "type": "classification"
+    },
+    "logistic_regression_text": {
+      "accuracy": 1.0,
+      "type": "classification"
+    },
+    "xgboost_text": {
+      "accuracy": 1.0,
+      "type": "classification"
+    },
+    "announcement_classifier": {
+      "accuracy": 1.0,
+      "type": "classification"
+    }
+  }
+}
